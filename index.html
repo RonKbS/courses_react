@@ -1,0 +1,98 @@
+
+<div id="root"></div>
+<script type="text/babel">
+    class Counter extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                Course: '',
+                totalCount: 1,
+                coursesAndCount: {courses: [], totalCount: this.totalCount}
+            };
+        };
+
+
+        handleChange = event => {
+            const { name, value } = event.target;
+            this.setState(state => {
+                if (name === 'course') {
+                    const Course = value
+                    return {
+                        ...state,
+                        Course
+                    }
+                }
+                else if (name === 'count') {
+                    const totalCount = parseInt(value)
+                    return {
+                        ...state,
+                        totalCount
+                    }
+                }
+            }
+            );
+        };
+
+        handleSubmit = (event) => {
+            event.preventDefault();
+            const { coursesAndCount, count, Course } = this.state
+            this.setState(state => {
+                const newCount = coursesAndCount.count + count
+                const Courses = coursesAndCount.courses.concat(Course)
+                console.log(count)
+                return {
+                    ...state,
+                    coursesAndCount: {
+                        totalCount: newCount,
+                        courses: Courses
+                    }
+                }
+            })
+        };
+
+
+        render() {
+        const { Course, totalCount, coursesAndCount } = this.state;
+        // console.log(coursesAndCount)
+            return (
+            <React.Fragment>
+                <form onSubmit={this.handleSubmit}>
+                    <div>
+                        <input
+                            type="text"
+                            name="course"
+                            autoComplete="off"
+                            value={Course}
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            type="number"
+                            name="count"
+                            autoComplete="off"
+                            value={totalCount}
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div>
+                        <button type="submit" value="Submit">add</button>
+                    </div>
+                </form >
+                <div>
+                    <ul>
+                        {(coursesAndCount.Course || []).map(item => (
+                            <li key={item}>{item}</li>
+                        ))}   
+                    </ul>
+                </div>
+            </React.Fragment>
+            );
+        }
+    }
+
+    ReactDOM.render(<Counter />, document.getElementById('root'))
+</script>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
