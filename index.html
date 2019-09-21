@@ -6,8 +6,8 @@
             super(props);
             this.state = {
                 Course: '',
-                totalCount: 1,
-                coursesAndCount: {courses: [], totalCount: this.totalCount}
+                totalCount: 0,
+                coursesAndCount: {courses: [], totalCount: 0}
             };
         };
 
@@ -35,11 +35,10 @@
 
         handleSubmit = (event) => {
             event.preventDefault();
-            const { coursesAndCount, count, Course } = this.state
+            const { coursesAndCount, totalCount, Course } = this.state
             this.setState(state => {
-                const newCount = coursesAndCount.count + count
+                const newCount = coursesAndCount.totalCount + totalCount
                 const Courses = coursesAndCount.courses.concat(Course)
-                console.log(count)
                 return {
                     ...state,
                     coursesAndCount: {
@@ -53,7 +52,6 @@
 
         render() {
         const { Course, totalCount, coursesAndCount } = this.state;
-        // console.log(coursesAndCount)
             return (
             <React.Fragment>
                 <form onSubmit={this.handleSubmit}>
@@ -81,9 +79,10 @@
                 </form >
                 <div>
                     <ul>
-                        {(coursesAndCount.Course || []).map(item => (
+                        {(coursesAndCount.courses || []).map(item => (
                             <li key={item}>{item}</li>
-                        ))}   
+                        ))} 
+                        <li>Total Marks: {coursesAndCount.totalCount}</li>
                     </ul>
                 </div>
             </React.Fragment>
